@@ -44,6 +44,58 @@ function getFirstPost(topic) {
   return posts?.[0];
 }
 
+function getLatestRevisionUser(post) {
+  const revisions = post?.revisions;
+  if (!Array.isArray(revisions) || revisions.length === 0) {
+    return null;
+  }
+
+  const latest = revisions.reduce((current, revision) => {
+    if (!current) {
+      return revision;
+    }
+    const currentNumber = Number(
+      current.number ?? current.version ?? current.revision,
+    );
+    const revisionNumber = Number(
+      revision.number ?? revision.version ?? revision.revision,
+    );
+    if (Number.isFinite(currentNumber) && Number.isFinite(revisionNumber)) {
+      return revisionNumber > currentNumber ? revision : current;
+    }
+
+    const currentTime = Date.parse(
+      current.updated_at ||
+        current.created_at ||
+        current.edit_date ||
+        current.edited_at ||
+        "",
+    );
+    const revisionTime = Date.parse(
+      revision.updated_at ||
+        revision.created_at ||
+        revision.edit_date ||
+        revision.edited_at ||
+        "",
+    );
+    if (!Number.isNaN(revisionTime)) {
+      if (Number.isNaN(currentTime) || revisionTime > currentTime) {
+        return revision;
+      }
+    }
+
+    return current;
+  }, null);
+
+  return (
+    latest?.name ||
+    latest?.username ||
+    latest?.user?.name ||
+    latest?.user?.username ||
+    null
+  );
+}
+
 function updateFirstPostMeta(topic) {
   const firstPostEl = getFirstPostElement();
   if (!firstPostEl) {
@@ -75,7 +127,9 @@ function updateFirstPostMeta(topic) {
   }
 
   const updatedBy =
-    firstPost?.last_editor_name || firstPost?.last_editor_username;
+    getLatestRevisionUser(firstPost) ||
+    firstPost?.last_editor_name ||
+    firstPost?.last_editor_username;
 
   const metaSignature = `${authorName}|${updatedBy || ""}`;
   if (
