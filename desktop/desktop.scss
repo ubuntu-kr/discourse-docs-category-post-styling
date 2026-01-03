@@ -1,5 +1,6 @@
 /* Desktop-only adjustments for wiki post presentation. */
 
-div.docs-topic-container {
-    grid-template-columns: auto auto;
+div.docs-topic-body {
+    width: auto;
+    max-width: 95%;
 }
