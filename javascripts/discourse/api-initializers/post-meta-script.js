@@ -64,6 +64,9 @@ async function getLatestRevisionUser(post) {
 }
 
 async function updateFirstPostMeta(topic) {
+  document
+    .querySelector("div.container.posts")
+    .classList.add("docs-topic-container");
   const firstPostEl = getFirstPostElement();
   if (!firstPostEl) {
     return;
@@ -162,6 +165,9 @@ function clearDocsState() {
   document
     .querySelectorAll(".docs-topic-first")
     .forEach((post) => post.classList.remove("docs-topic-first"));
+  document
+    .querySelector("div.container.posts")
+    .classList.remove("docs-topic-container");
 }
 
 export default apiInitializer("0.8.7", (api) => {
