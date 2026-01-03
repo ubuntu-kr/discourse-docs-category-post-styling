@@ -12,13 +12,6 @@ body.docs-topic {
             display: none;
         }
 
-        .topic-body {
-            margin-left: 0;
-            background: var(--docs-highlight-color);
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-        }
-
         .names.trigger-user-card {
             &.docs-topic-meta {
                 display: block;
