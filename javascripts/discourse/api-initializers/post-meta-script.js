@@ -50,7 +50,7 @@ function updateFirstPostMeta(topic) {
     return;
   }
 
-  firstPostEl.classList.add("wiki-topic-first");
+  firstPostEl.classList.add("docs-topic-first");
   const names = firstPostEl.querySelector(
     ".topic-meta-data .names.trigger-user-card",
   );
@@ -79,14 +79,14 @@ function updateFirstPostMeta(topic) {
 
   const metaSignature = `${authorName}|${updatedBy || ""}`;
   if (
-    names.dataset.wikiMetaSignature === metaSignature &&
-    names.classList.contains("wiki-topic-meta")
+    names.dataset.docsMetaSignature === metaSignature &&
+    names.classList.contains("docs-topic-meta")
   ) {
     return;
   }
 
-  names.dataset.wikiMetaSignature = metaSignature;
-  names.classList.add("wiki-topic-meta");
+  names.dataset.docsMetaSignature = metaSignature;
+  names.classList.add("docs-topic-meta");
   while (names.firstChild) {
     names.removeChild(names.firstChild);
   }
@@ -95,7 +95,7 @@ function updateFirstPostMeta(topic) {
     "http://www.w3.org/2000/svg",
     "svg",
   );
-  authorIcon.setAttribute("class", "wiki-meta-author-icon");
+  authorIcon.setAttribute("class", "docs-meta-author-icon");
   authorIcon.setAttribute("viewBox", "0 0 640 640");
   authorIcon.setAttribute("aria-hidden", "true");
   const authorPath = document.createElementNS(
@@ -114,10 +114,10 @@ function updateFirstPostMeta(topic) {
   if (updatedBy && updatedBy !== authorName) {
     names.append(document.createTextNode(", "));
     const updated = document.createElement("span");
-    updated.className = "wiki-meta-updated";
+    updated.className = "docs-meta-updated";
 
     const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    icon.setAttribute("class", "wiki-meta-updated-icon");
+    icon.setAttribute("class", "docs-meta-updated-icon");
     icon.setAttribute("viewBox", "0 0 640 640");
     icon.setAttribute("aria-hidden", "true");
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
@@ -133,15 +133,14 @@ function updateFirstPostMeta(topic) {
   }
 }
 
-function clearWikiState() {
-  document.body.classList.remove("wiki-topic", "wiki-replies-collapsed");
-  document.querySelectorAll(".names.wiki-topic-meta").forEach((meta) => {
-    meta.classList.remove("wiki-topic-meta");
-    delete meta.dataset.wikiMetaSignature;
+function clearDocsState() {
+  document.querySelectorAll(".names.docs-topic-meta").forEach((meta) => {
+    meta.classList.remove("docs-topic-meta");
+    delete meta.dataset.docsMetaSignature;
   });
   document
-    .querySelectorAll(".wiki-topic-first")
-    .forEach((post) => post.classList.remove("wiki-topic-first"));
+    .querySelectorAll(".docs-topic-first")
+    .forEach((post) => post.classList.remove("docs-topic-first"));
 }
 
 export default apiInitializer("0.8.7", (api) => {
@@ -151,12 +150,11 @@ export default apiInitializer("0.8.7", (api) => {
     scheduleOnce("afterRender", () => {
       const topic = getTopicModel(api);
       if (!isTargetTopic(topic, targetCategoryIds)) {
-        clearWikiState();
+        clearDocsState();
         return;
       }
 
-      document.body.classList.add("wiki-topic");
-      document.body.classList.remove("wiki-replies-collapsed");
+      document.body.classList.add("docs-topic");
       updateFirstPostMeta(topic);
     });
   };
