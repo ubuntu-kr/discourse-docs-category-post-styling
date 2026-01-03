@@ -130,10 +130,10 @@ async function updateFirstPostMeta(topic) {
   authorIcon.appendChild(authorPath);
 
   names.appendChild(authorIcon);
-  names.append(document.createTextNode(` ${authorName}`));
+  names.append(document.createTextNode(`${authorName}`));
 
   if (updatedBy && updatedBy !== authorName) {
-    names.append(document.createTextNode(", "));
+    names.append(document.createTextNode(" "));
     const updated = document.createElement("span");
     updated.className = "docs-meta-updated";
 
@@ -149,7 +149,7 @@ async function updateFirstPostMeta(topic) {
     icon.appendChild(path);
 
     updated.appendChild(icon);
-    updated.appendChild(document.createTextNode(` ${updatedBy}`));
+    updated.appendChild(document.createTextNode(`${updatedBy}`));
     names.appendChild(updated);
   }
 }
