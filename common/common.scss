@@ -1,0 +1,52 @@
+/* Shared wiki post styling goes here. Use theme settings to keep values configurable. */
+
+body.wiki-topic {
+    .topic-post[data-post-number="1"],
+    article[data-post-number="1"] {
+        .topic-avatar,
+        .post-avatar {
+            display: none;
+        }
+
+        img.avatar {
+            display: none;
+        }
+
+        .topic-body {
+            margin-left: 0;
+            background: var(--wiki-highlight-color);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+        }
+
+        .names.trigger-user-card {
+            &.wiki-topic-meta {
+                display: block;
+                color: var(--primary-medium);
+                font-size: 0.95em;
+                margin-bottom: 0.75rem;
+                letter-spacing: 0.01em;
+            }
+
+            .wiki-meta-updated {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.35rem;
+            }
+
+            .wiki-meta-author-icon {
+                width: 0.95em;
+                height: 0.95em;
+                vertical-align: -0.1em;
+                fill: currentColor;
+                margin-right: 0.35rem;
+            }
+
+            .wiki-meta-updated-icon {
+                width: 0.9em;
+                height: 0.9em;
+                fill: currentColor;
+            }
+        }
+    }
+}

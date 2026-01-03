@@ -1,0 +1,6 @@
+target_categories:
+  type: list
+  list_type: compact
+  default: "16"
+  description:
+    en: Category IDs where the wiki post styling and comment toggle should apply. Leave empty to disable.

@@ -1,0 +1,14 @@
+{
+  "name": "Docs Category Post Styling Component",
+  "component": true,
+  "license_url": "https://opensource.org/license/mit",
+  "about_url": null,
+  "authors": null,
+  "theme_version": 0.1,
+  "minimum_discourse_version": null,
+  "maximum_discourse_version": null,
+  "assets": {},
+  "color_schemes": {},
+  "modifiers": {},
+  "learn_more": "https://meta.discourse.org/t/beginners-guide-to-using-discourse-themes/91966"
+}
