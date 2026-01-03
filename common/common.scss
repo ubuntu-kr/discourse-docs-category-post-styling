@@ -1,6 +1,6 @@
-/* Shared wiki post styling goes here. Use theme settings to keep values configurable. */
+/* Shared docs post styling goes here. Use theme settings to keep values configurable. */
 
-body.wiki-topic {
+body.docs-topic {
     .topic-post[data-post-number="1"],
     article[data-post-number="1"] {
         .topic-avatar,
@@ -14,13 +14,13 @@ body.wiki-topic {
 
         .topic-body {
             margin-left: 0;
-            background: var(--wiki-highlight-color);
+            background: var(--docs-highlight-color);
             border-radius: 12px;
             padding: 1rem 1.25rem;
         }
 
         .names.trigger-user-card {
-            &.wiki-topic-meta {
+            &.docs-topic-meta {
                 display: block;
                 color: var(--primary-medium);
                 font-size: 0.95em;
@@ -28,13 +28,13 @@ body.wiki-topic {
                 letter-spacing: 0.01em;
             }
 
-            .wiki-meta-updated {
+            .docs-meta-updated {
                 display: inline-flex;
                 align-items: center;
                 gap: 0.35rem;
             }
 
-            .wiki-meta-author-icon {
+            .docs-meta-author-icon {
                 width: 0.95em;
                 height: 0.95em;
                 vertical-align: -0.1em;
@@ -42,7 +42,7 @@ body.wiki-topic {
                 margin-right: 0.35rem;
             }
 
-            .wiki-meta-updated-icon {
+            .docs-meta-updated-icon {
                 width: 0.9em;
                 height: 0.9em;
                 fill: currentColor;
