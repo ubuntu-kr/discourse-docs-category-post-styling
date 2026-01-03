@@ -1,4 +1,5 @@
 import { apiInitializer } from "discourse/lib/api";
+import { ajax } from "discourse/lib/ajax";
 import { scheduleOnce } from "@ember/runloop";
 
 function parseCategoryIds() {
@@ -44,13 +45,12 @@ function getFirstPost(topic) {
   return posts?.[0];
 }
 
-function getLatestRevisionUser(post) {
-  const revisions = post?.revisions;
+function pickLatestRevision(revisions) {
   if (!Array.isArray(revisions) || revisions.length === 0) {
     return null;
   }
 
-  const latest = revisions.reduce((current, revision) => {
+  return revisions.reduce((current, revision) => {
     if (!current) {
       return revision;
     }
@@ -86,6 +86,13 @@ function getLatestRevisionUser(post) {
 
     return current;
   }, null);
+}
+
+function getLatestRevisionUserFromList(revisions) {
+  const latest = pickLatestRevision(revisions);
+  if (!latest) {
+    return null;
+  }
 
   return (
     latest?.name ||
@@ -96,7 +103,31 @@ function getLatestRevisionUser(post) {
   );
 }
 
-function updateFirstPostMeta(topic) {
+async function getLatestRevisionUser(post) {
+  const fromPost = getLatestRevisionUserFromList(post?.revisions);
+  if (fromPost) {
+    return fromPost;
+  }
+
+  if (!post?.id) {
+    return null;
+  }
+
+  try {
+    const response = await ajax(`/posts/${post.id}/revisions.json`);
+    const revisions =
+      response?.revisions ||
+      response?.post_revisions ||
+      response?.revision_history ||
+      response?.revisions?.revisions ||
+      [];
+    return getLatestRevisionUserFromList(revisions);
+  } catch {
+    return null;
+  }
+}
+
+async function updateFirstPostMeta(topic) {
   const firstPostEl = getFirstPostElement();
   if (!firstPostEl) {
     return;
@@ -127,7 +158,7 @@ function updateFirstPostMeta(topic) {
   }
 
   const updatedBy =
-    getLatestRevisionUser(firstPost) ||
+    (await getLatestRevisionUser(firstPost)) ||
     firstPost?.last_editor_name ||
     firstPost?.last_editor_username;
 
@@ -201,7 +232,7 @@ export default apiInitializer("0.8.7", (api) => {
   const targetCategoryIds = parseCategoryIds();
 
   const apply = () => {
-    scheduleOnce("afterRender", () => {
+    scheduleOnce("afterRender", async () => {
       const topic = getTopicModel(api);
       if (!isTargetTopic(topic, targetCategoryIds)) {
         clearDocsState();
@@ -209,7 +240,7 @@ export default apiInitializer("0.8.7", (api) => {
       }
 
       document.body.classList.add("docs-topic");
-      updateFirstPostMeta(topic);
+      await updateFirstPostMeta(topic);
     });
   };
 
