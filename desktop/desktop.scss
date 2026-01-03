@@ -1,11 +1,5 @@
 /* Desktop-only adjustments for wiki post presentation. */
 
-body.wiki-topic {
-    .topic-post[data-post-number="1"],
-    article[data-post-number="1"] {
-        .topic-body {
-            max-width: 100%;
-            width: 100%;
-        }
-    }
+div.docs-topic-container {
+    grid-template-columns: auto auto;
 }
