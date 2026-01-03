@@ -75,10 +75,7 @@ function updateFirstPostMeta(topic) {
   }
 
   const updatedBy =
-    firstPost?.last_editor_name ||
-    firstPost?.last_editor_username ||
-    topic?.details?.last_poster?.name ||
-    topic?.details?.last_poster?.username;
+    firstPost?.last_editor_name || firstPost?.last_editor_username;
 
   const metaSignature = `${authorName}|${updatedBy || ""}`;
   if (
